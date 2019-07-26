@@ -21,4 +21,22 @@ Install Anaconda
 
 ```
 sudo apt-get anaconda
+```
 
+# Geocode
+```
+install.packages("osrm")
+library(osrm)
+```
+
+```
+database <- read.table ("Diretório", header=TRUE, sep="\t") #Para os iniciantes em R ver as diferenças entre leituras de arquivo.
+```
+
+```
+distancias <-osrmTable(loc = database[1:44, c("id","lon","lat")])
+```
+
+```
+write.table(distancias, file = "matriz.txt", sep="\t")
+```
