@@ -16,7 +16,7 @@ cnes = pd.merge(cnes_estab, cep, on='cod_cep')
 cnes = pd.merge(cnes, mun, on='cod_ibge')
 
 # Concatena as variáveis
-cnes['endereco'] = (cnes['nom_logradouro'] + ', ' + cnes['num_endereco'] + ', ' + cnes['nom_bairro'] + ', ' + cnes['nom_mun'] +
+cnes['address'] = (cnes['nom_logradouro'] + ', ' + cnes['num_endereco'] + ', ' + cnes['nom_bairro'] + ', ' + cnes['nom_mun'] +
                     ', ' + cnes['uf'] + ',' + cnes['cod_cep'])
 
 # Exclui as variáveis desnecessárias
