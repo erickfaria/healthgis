@@ -1,0 +1,27 @@
+import pandas as pd
+import geopandas as gpd
+
+# Adiciona as informações do código e nome do municipio 
+
+cnes_estab = pd.read_table('cnes_estabelecimentos.txt', sep='\t', encoding='latin-1', dtype={'cod_unidade':str,'nom_logradouro':str,
+                                                               'num_endereco':str,'nom_bairro':str,'cod_cep':str})
+mun = pd.read_table('cod_municipios.txt', sep='\t', encoding='latin-1')
+cep = pd.read_table('cep.txt', sep='\t', header=0, names=['cod_cep','uf','cod_ibge'],
+                   dtype={'cod_cep':str, 'uf':str, 'cod_ibge':str})
+cep_alterado = pd.read_table('cep_alterado.txt', sep='\t', header=0,
+                            usecols=[0,1,2], names=['cod_cep','uf','cod_ibge'], dtype={'cod_cep':str})
+
+cep = cep.append(cep_alterado, ignore_index=True)
+cnes = pd.merge(cnes_estab, cep, on='cod_cep')
+cnes = pd.merge(cnes, mun, on='cod_ibge')
+
+# Concatena as variáveis
+cnes['endereco'] = (cnes['nom_logradouro'] + ', ' + cnes['num_endereco'] + ', ' + cnes['nom_bairro'] + ', ' + cnes['nom_mun'] +
+                    ', ' + cnes['uf'] + ',' + cnes['cod_cep'])
+
+# Exclui as variáveis desnecessárias
+cnes.drop(['nom_logradouro', 'num_endereco', 'nom_bairro', 'nom_mun', 'uf', 'cod_cep',
+          'cod_reg_saude', 'cod_micro_regiao', 'cod_dist_san', 'cod_dist_adm', 'cod_ibge'], axis=1, inplace=True)
+          
+cnes.to_csv('cnes_to_geocode.txt', sep='\t',
+           encoding='latin-1', index=False)
