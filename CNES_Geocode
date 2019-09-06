@@ -22,6 +22,13 @@ cnes['endereco'] = (cnes['nom_logradouro'] + ', ' + cnes['num_endereco'] + ', ' 
 # Exclui as variáveis desnecessárias
 cnes.drop(['nom_logradouro', 'num_endereco', 'nom_bairro', 'nom_mun', 'uf', 'cod_cep',
           'cod_reg_saude', 'cod_micro_regiao', 'cod_dist_san', 'cod_dist_adm', 'cod_ibge'], axis=1, inplace=True)
-          
-cnes.to_csv('cnes_to_geocode.txt', sep='\t',
+
+# Faz a Geocodificação
+coord = gpd.tools.geocode(cnes['address'], provider='bing',
+                                        api_key='PUT HERE YOUR API',
+                                        timeout=10)
+cnes = coord.join(cnes)
+
+# Exporta Arquivo
+cnes.to_csv('cnes_coord.txt', sep='\t',
            encoding='latin-1', index=False)
