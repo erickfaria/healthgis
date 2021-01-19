@@ -35,9 +35,9 @@ cnes = pd.read_csv('tbEstabelecimento201912.csv', sep=';', header=0,
                                                     'num_endereco','nom_bairro','num_cep'],
                   dtype={'cod_unidade':str,'nom_logradouro':str,'num_endereco':str,'nom_bairro':str,'num_cep':str})
 
-cep = pd.read_csv('C:\\Users\\Jack Sparrow\\OneDrive - univ-lille.fr\\dados_secundarios\\cep_brasil\\cep.txt', 
+cep = pd.read_csv('dados_secundarios\\cep_brasil\\cep.txt', 
                   sep='\t', names=['num_cep', 'cod_uf', 'cod_mun'], dtype={'num_cep':str})
-mun = pd.read_csv('C:\\Users\\Jack Sparrow\\OneDrive - univ-lille.fr\\dados_secundarios\\municipio_brasil\\municipio.txt', 
+mun = pd.read_csv('dados_secundarios\\municipio_brasil\\municipio.txt', 
                   sep='\t')
 
 cep = pd.merge(cep, mun, on='cod_mun', how='left')
